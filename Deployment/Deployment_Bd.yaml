@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-database
+  labels:
+    app: database
+spec:
+  selector: 
+    matchLabels:
+      app: database
+      tier: data
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: database
+        tier: data
+    spec:
+      containers:
+      - name: my-database
+        image: sitowskyolson/db:v3
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: secret
+        - name: MYSQL_DATABASE
+          value: datos
+        - name: MYSQL_USER
+          value: fabricio
+        - name: MYSQL_PASSWORD
+          value: fabri123
+        ports: 
+        - containerPort: 3306 
+        volumeMounts:
+        - name: mysql-persistent-storage
+          mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim

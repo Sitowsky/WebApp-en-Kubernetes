@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-website
+  labels:
+    app: website
+spec:
+  selector:
+    matchLabels:
+      app: website
+      tier: web
+  replicas: 7
+  template:
+    metadata:
+      labels:
+        app: website
+        tier: web
+    spec:
+      containers:
+      - name: my-website
+        image: sitowskyolson/app:v3
+        ports: 
+        - containerPort: 80 
